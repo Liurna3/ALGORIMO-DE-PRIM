@@ -26,8 +26,11 @@ int main()
  */
 void inputGraph(Graph *graph)
 {
-    int nodos;
+    // numero de nodos 
+    int nodos; 
+    // peso entre dos nodos capturados
     int peso;
+    // operacion, se usa para  confirmar las entradas
     int op;
 
 input_init:
