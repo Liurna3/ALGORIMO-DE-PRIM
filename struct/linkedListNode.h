@@ -19,6 +19,7 @@
 typedef struct LinkedListNode
 {
   /* Propiedades */
+  int node;
   PRIORITY_DATA_TYPE priority;
 
   /* Required */
@@ -28,7 +29,7 @@ typedef struct LinkedListNode
 /**
  * Crear un nodo para la lista
  */
-LinkedListNode *linkedListNodeCreate(PRIORITY_DATA_TYPE priority)
+LinkedListNode *linkedListNodeCreate(int node, PRIORITY_DATA_TYPE priority)
 {
   LinkedListNode *foo = malloc(sizeof(LinkedListNode));
 
@@ -38,6 +39,7 @@ LinkedListNode *linkedListNodeCreate(PRIORITY_DATA_TYPE priority)
     exit(EXIT_FAILURE);
   }
 
+  foo->node = node;
   foo->priority = priority;
 
   return foo;
@@ -48,7 +50,7 @@ LinkedListNode *linkedListNodeCreate(PRIORITY_DATA_TYPE priority)
  */
 void linkedListNodeDisplay(LinkedListNode *node)
 {
-  printf("prioridad: %d\n", node->priority);
+  printf("nodo %d, peso: %d\n",node->node, node->priority);
 }
 
 /**
@@ -58,7 +60,7 @@ void linkedListNodeDisplay(LinkedListNode *node)
  */
 LinkedListNode *linkedListNodeCopy(LinkedListNode *node)
 {
-  return linkedListNodeCreate(node->priority);
+  return linkedListNodeCreate(node->node,node->priority);
 }
 
 #endif

@@ -2,9 +2,9 @@
 /**
  *
  */
-void pqEnqueue(PriorityQueue *pq, PRIORITY_DATA_TYPE priority)
+void pqEnqueue(PriorityQueue *pq, int node, PRIORITY_DATA_TYPE priority)
 {
-    priorityQueueEnqueue(pq, linkedListNodeCreate(priority));
+    priorityQueueEnqueue(pq, linkedListNodeCreate(node, priority));
 }
 
 /**
