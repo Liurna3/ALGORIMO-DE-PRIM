@@ -5,6 +5,9 @@
 #include "./struct/graph.h"
 #include "./utils.h"
 
+#include <stdlib.h>
+#include <stdio.h>
+
 void inputGraph(Graph *graph);
 
 int main()
@@ -27,32 +30,36 @@ void inputGraph(Graph *graph)
     int peso;
     int op;
 
-    capturar_nodos:
+input_init:
     puts("Numero de nodos en el grafo?:");
     scanf("%d", &nodos);
 
-    if (nodos < 2)
+    puts("Confirmar (1.si / 2.no):");
+    scanf("%d", &op);
+
+    if (op == 2)
     {
-        puts("El minimo de nodos es 2!!");
-        goto capturar_nodos;
+        goto input_init;
     }
 
+    // inicializar grafo y capturar los pesos
     graphInit(graph, nodos);
 
     for (int i = 0; i < nodos; i++)
     {
         for (int j = i; j < nodos; j++)
         {
-            // capturar el peso de cada vertice 
-            if (!graphValidPosition(graph, i, j))
-                continue;
-            
-            printf("Peso entre los nodos %d y %d?:\n", i,j);
-            scanf("%d", &peso);
-            graphSetEdgeWeight(graph,i,j,peso);
+            if (graphValidPosition(graph, i, j))
+            {
+                // capturar el peso de cada vertice
+                printf("Peso entre los nodos %d y %d?:\n", i, j);
+                scanf("%d", &peso);
+                graphSetEdgeWeight(graph, i, j, peso);
+            }
         }
     }
 
+    // mostrar la matriz de adyacencia
     puts("Grafo capturado:");
     displayAdjacencyMatrix(graph);
 
@@ -61,7 +68,8 @@ void inputGraph(Graph *graph)
 
     if (op != 1)
     {
+        // si la captura fue incorrecta reinicia
         graphFree(graph);
-        goto capturar_nodos;
+        goto input_init;
     }
 }
