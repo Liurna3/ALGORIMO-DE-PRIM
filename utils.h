@@ -43,10 +43,13 @@ void displayAdjacencyMatrix(Graph *graph)
     {
         for (int j = 0; j < lenght; j++)
         {
-            if (graphValidPosition(graph, i, j))
-                printf("%2d ", graphGetEdgeWeight(graph, i, j));
+            if (!graphValidPosition(graph, i, j))
+            {
+                printf(" - ");
+                continue;
+            }
 
-            printf(" - ");
+            printf("%2d ", graphGetEdgeWeight(graph, i, j));
         }
 
         printf("\n");
