@@ -31,7 +31,7 @@ int graphLenght(Graph *graph)
 void graphInit(Graph *graph, int nodes)
 {
     int foo = (nodes * (nodes - 1)) >> 1;
-    graph->data = malloc(foo * sizeof(GRAPH_DATA_TYPE));
+    graph->data = calloc(foo, sizeof(GRAPH_DATA_TYPE));
 
     graph->lenght = nodes;
 }
