@@ -9,13 +9,37 @@
 #include <stdio.h>
 
 void inputGraph(Graph *graph);
+void displayPrim(Graph *graph);
+int nodosCompletados(int *visited, int lenght);
 
 int main()
 {
     Graph g;
+    int opc = 0;
     inputGraph(&g);
 
-    // metodo de prim aquí
+    do
+    {
+        puts("1. Capturar nuevo grafo");
+        puts("2. Algoritmo de Prim");
+        puts("3. Salir");
+        scanf("%d", &opc);
+
+        switch (opc)
+        {
+        case 1:
+            inputGraph(&g);
+            break;
+        case 2:
+            displayPrim(&g);
+            break;
+        case 3:
+            break;
+        default:
+            puts("Opcion invalida");
+            break;
+        }
+    } while (opc != 3);
 
     graphFree(&g);
     return 0;
@@ -34,10 +58,10 @@ void inputGraph(Graph *graph)
     int op;
 
 input_init:
-    puts("Numero de nodos en el grafo?:");
+    puts("Numero de nodos en el grafo: ");
     scanf("%d", &nodos);
 
-    puts("Confirmar (1.si / 2.no):");
+    puts("Confirmar 1. Si  2. No: ");
     scanf("%d", &op);
 
     if (op == 2)
@@ -55,7 +79,7 @@ input_init:
             if (graphValidPosition(graph, i, j))
             {
                 // capturar el peso de cada vertice
-                printf("Peso entre los nodos %d y %d?:\n", i, j);
+                printf("Inserte el peso entre los nodos %d y %d:\n", i, j);
                 scanf("%d", &peso);
                 graphSetEdgeWeight(graph, i, j, peso);
             }
@@ -63,16 +87,80 @@ input_init:
     }
 
     // mostrar la matriz de adyacencia
-    puts("Grafo capturado:");
+    puts("Grafo capturado :");
     displayAdjacencyMatrix(graph);
+}
 
-    puts("Los pesos son correctos (1.si / 2.no)?:");
-    scanf("%d", &op);
+void displayPrim(Graph *graph)
+{
+    PriorityQueue queue;
+    priorityQueueInit(&queue);
 
-    if (op != 1)
+    int *visited = (int *)malloc(sizeof(int) * graphLenght(graph));
+    int nodoActual = 0;
+    for (int i = 0; i < graphLenght(graph); i++)
     {
-        // si la captura fue incorrecta reinicia
-        graphFree(graph);
-        goto input_init;
+        visited[i] = 0;
     }
+
+    do
+    {
+        
+
+        for(int j = 0; j < graphLenght(graph); j++)
+        {
+            if(graphValidPosition(graph, 0, j))
+            {
+                priorityQueueEnqueue(&queue, linkedListNodeCreate(j, graphGetEdgeWeight(graph, 0, j)));
+            }
+        }
+
+        visited[nodoActual] = 1;
+        do
+        {
+            nodoActual = priorityQueueDequeue(&queue)->node;
+        } while (visited[nodoActual] == 1);
+
+        printf("%d -> " , nodoActual);
+        
+        
+
+        
+
+    } while (!nodosCompletados(visited, graphLenght(graph)));
+    
+
+    
+    
+
+
+
+    int numeroMenor = priorityQueueDequeue(&queue)->priority;
+
+    printf("El numero menor es: %d\n", numeroMenor);
+
+    
+}
+
+int nodosCompletados(int *visited, int lenght)
+{
+    for (int i = 0; i < lenght; i++)
+    {
+        if (visited[i] == 0)
+        {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+int imprimirNodos(int *visited, int lenght)
+{
+    printf("Nodos visitados: ");
+    for (int i = 0; i < lenght; i++)
+    {
+        printf("%d ", visited[i]);
+    }
+    printf("\n");
 }
