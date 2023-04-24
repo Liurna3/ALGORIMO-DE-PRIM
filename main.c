@@ -1,4 +1,3 @@
-
 #include "./struct/linkedListNode.h"
 #include "./struct/linkedList.h"
 #include "./struct/priorityQueue.h"
@@ -10,7 +9,9 @@
 
 void inputGraph(Graph *graph);
 void displayPrim(Graph *graph);
+void imprimirNodos(int *visited, int lenght);
 int nodosCompletados(int *visited, int lenght);
+void printQueue(PriorityQueue *queue);
 
 int main()
 {
@@ -28,6 +29,7 @@ int main()
         switch (opc)
         {
         case 1:
+            graphFree(&g);
             inputGraph(&g);
             break;
         case 2:
@@ -103,42 +105,31 @@ void displayPrim(Graph *graph)
         visited[i] = 0;
     }
 
+    printf("La lista de prim es: ");
+
     do
     {
+        
         
 
         for(int j = 0; j < graphLenght(graph); j++)
         {
-            if(graphValidPosition(graph, 0, j))
+            if(graphValidPosition(graph, nodoActual, j))
             {
-                priorityQueueEnqueue(&queue, linkedListNodeCreate(j, graphGetEdgeWeight(graph, 0, j)));
+                priorityQueueEnqueue(&queue, linkedListNodeCreate(j, graphGetEdgeWeight(graph, nodoActual, j)));
             }
         }
 
         visited[nodoActual] = 1;
-        do
+        printf(" %d ->", nodoActual);
+
+        while (visited[nodoActual] == 1 && !nodosCompletados(visited, graphLenght(graph)))
         {
             nodoActual = priorityQueueDequeue(&queue)->node;
-        } while (visited[nodoActual] == 1);
-
-        printf("%d -> " , nodoActual);
-        
-        
-
-        
+        }
 
     } while (!nodosCompletados(visited, graphLenght(graph)));
-    
-
-    
-    
-
-
-
-    int numeroMenor = priorityQueueDequeue(&queue)->priority;
-
-    printf("El numero menor es: %d\n", numeroMenor);
-
+    printf("x\n");
     
 }
 
@@ -155,7 +146,21 @@ int nodosCompletados(int *visited, int lenght)
     return 1;
 }
 
-int imprimirNodos(int *visited, int lenght)
+void printQueue(PriorityQueue *queue)
+{
+    int lenght = priorityQueueLenght(queue);
+    printf("La lista es: ");
+
+    for (int i = 0; i < lenght; i++)
+    {
+        printf("Nodo: %d Priodidad: %d,", priorityQueueGet(queue, i)->node, priorityQueueGet(queue, i)->priority);
+        
+    }
+    printf("\n");
+}
+
+
+void imprimirNodos(int *visited, int lenght)
 {
     printf("Nodos visitados: ");
     for (int i = 0; i < lenght; i++)
