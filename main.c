@@ -9,9 +9,7 @@
 
 void inputGraph(Graph *graph);
 void displayPrim(Graph *graph);
-void imprimirNodos(int *visited, int lenght);
 int nodosCompletados(int *visited, int lenght);
-void printQueue(PriorityQueue *queue);
 
 int main()
 {
@@ -100,6 +98,7 @@ void displayPrim(Graph *graph)
 
     int *visited = (int *)malloc(sizeof(int) * graphLenght(graph));
     int nodoActual = 0;
+    // inicializar el arreglo de visitados en 0
     for (int i = 0; i < graphLenght(graph); i++)
     {
         visited[i] = 0;
@@ -111,7 +110,7 @@ void displayPrim(Graph *graph)
     {
         
         
-
+        // agregar los nodos adyacentes a la cola de prioridad
         for(int j = 0; j < graphLenght(graph); j++)
         {
             if(graphValidPosition(graph, nodoActual, j))
@@ -120,9 +119,11 @@ void displayPrim(Graph *graph)
             }
         }
 
+        // marcar el nodo actual como visitado
         visited[nodoActual] = 1;
         printf(" %d ->", nodoActual);
 
+        // obtener el nodo con menor prioridad mientras no este visitado
         while (visited[nodoActual] == 1 && !nodosCompletados(visited, graphLenght(graph)))
         {
             nodoActual = priorityQueueDequeue(&queue)->node;
@@ -146,26 +147,3 @@ int nodosCompletados(int *visited, int lenght)
     return 1;
 }
 
-void printQueue(PriorityQueue *queue)
-{
-    int lenght = priorityQueueLenght(queue);
-    printf("La lista es: ");
-
-    for (int i = 0; i < lenght; i++)
-    {
-        printf("Nodo: %d Priodidad: %d,", priorityQueueGet(queue, i)->node, priorityQueueGet(queue, i)->priority);
-        
-    }
-    printf("\n");
-}
-
-
-void imprimirNodos(int *visited, int lenght)
-{
-    printf("Nodos visitados: ");
-    for (int i = 0; i < lenght; i++)
-    {
-        printf("%d ", visited[i]);
-    }
-    printf("\n");
-}
