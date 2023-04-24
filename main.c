@@ -113,7 +113,7 @@ void displayPrim(Graph *graph)
         // agregar los nodos adyacentes a la cola de prioridad
         for(int j = 0; j < graphLenght(graph); j++)
         {
-            if(graphValidPosition(graph, nodoActual, j))
+            if(graphValidPosition(graph, nodoActual, j) && graphGetEdgeWeight(graph, nodoActual, j) > 0)
             {
                 priorityQueueEnqueue(&queue, linkedListNodeCreate(j, graphGetEdgeWeight(graph, nodoActual, j)));
             }
@@ -146,4 +146,3 @@ int nodosCompletados(int *visited, int lenght)
 
     return 1;
 }
-
